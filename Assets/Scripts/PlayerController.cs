@@ -3,6 +3,7 @@ using UnityEngine;
 // キーボード/ゲームパッド → Actions（ProjectビューにあるInputSystem_Actionsファイル） →
 // PlayerゲームオブジェクトにアタッチしたPlyaerInput → このスクリプト
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerContrller : MonoBehaviour
 {
@@ -29,10 +30,31 @@ public class PlayerContrller : MonoBehaviour
     /// </summary>
     private float _movementY;
 
+    /// <summary>
+    /// 収集されたPickUpゲームオブジェクトの数を保存する変数
+    /// </summary>
+    private int _count;
+
+    /// <summary>
+    /// 収集されたPickUpゲームオブジェクトの数を表示するUIテキストコンポーネント
+    /// </summary>
+    public TextMeshProUGUI countText;
+
+    /// <summary>
+    /// WinTextを表示するゲームオブジェクト
+    /// </summary>
+    public GameObject winTextObject;
+
     void Start()
     {
         // PlayerにアタッチされたRigidbodyを取得し変数_rbに保存します。
         _rb = GetComponent<Rigidbody>();
+        // ゲーム開始時に_countを0に初期化します。
+        _count = 0;
+        // カウント表示を更新します。
+        SetCountText();
+        // ゲーム開始時にWinTextを非アクティブに設定します。
+        winTextObject.SetActive(false);
     }
 
     /// <summary>
@@ -66,6 +88,26 @@ public class PlayerContrller : MonoBehaviour
         {
             // 衝突したオブジェクトを非アクティブ化します。（非表示になる）
             other.gameObject.SetActive(false);
+            // _countの数を1増やします。
+            _count = _count + 1;
+            // カウント表示を更新します。
+            SetCountText();
+        }
+    }
+
+    /// <summary>
+    /// 収集されたPickUpゲームオブジェクトの表示数を更新する関数です。
+    /// </summary>
+    void SetCountText()
+    {
+        // 現在の数でCountTextのテキストを更新します。
+        countText.text = "Count: " + _count.ToString();
+
+        // カウント数が勝利条件に達したかを確認します。
+        if (_count >= 12)
+        {
+            // WinTextゲームオブジェクトを表示します。
+            winTextObject.SetActive(true);
         }
     }
 }
