@@ -108,6 +108,20 @@ public class PlayerContrller : MonoBehaviour
         {
             // WinTextゲームオブジェクトを表示します。
             winTextObject.SetActive(true);
+            // Enemyゲームオブジェクト（EnemyBodyゲームオブジェクト）を破壊します。
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // このゲームオブジェクト（Playerゲームオブジェクト）を破壊します。
+            Destroy(gameObject);
+            // winTextのテキストを「You Lose!」に書き換え表示します。
+            winTextObject.gameObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
         }
     }
 }
