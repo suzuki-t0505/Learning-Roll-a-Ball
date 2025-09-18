@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
 
     private float _movmentY;
 
+    private int _count;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _count = 0;
     }
 
     void OnMove(InputValue movmentValue)
@@ -27,5 +30,15 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movment = new Vector3(x: _movmentX, y: 0.0f, z: _movmentY);
         _rb.AddForce(movment * speed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PickUp"))
+        {
+            other.gameObject.SetActive(false);
+            _count = _count + 1; // _count++;
+            // Debug.Log($"count = {_count}");
+        }
     }
 }
