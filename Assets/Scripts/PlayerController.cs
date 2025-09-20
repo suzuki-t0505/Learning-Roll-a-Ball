@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,10 +14,16 @@ public class PlayerController : MonoBehaviour
 
     private int _count;
 
+    public TextMeshProUGUI countText;
+
+    public GameObject winTextObject;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _count = 0;
+        SetCountText();
+        winTextObject.SetActive(false);
     }
 
     void OnMove(InputValue movmentValue)
@@ -38,7 +45,18 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             _count = _count + 1; // _count++;
+            SetCountText();
             // Debug.Log($"count = {_count}");
+        }
+    }
+
+    private void SetCountText()
+    {
+        countText.text = "Count: " + _count.ToString();
+
+        if (_count >= 12)
+        {
+            winTextObject.SetActive(true);
         }
     }
 }
