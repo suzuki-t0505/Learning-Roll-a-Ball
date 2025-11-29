@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class PlayerController : MonoBehaviour
 
     private int _count;
 
+    private bool _isJump;
+    private bool _isInterbal;
+
+    [SerializeField]
+    private float _jumpPower;
+
     public TextMeshProUGUI countText;
 
     public GameObject winTextObject;
@@ -23,6 +30,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _count = 0;
         SetCountText();
+        _isJump = false;
         winTextObject.SetActive(false);
     }
 
@@ -33,8 +41,28 @@ public class PlayerController : MonoBehaviour
         _movmentY = movmentVector.y;
     }
 
+    void OnJump()
+    {
+        if (_isInterbal) return;
+        _isJump = true;
+        _isInterbal = true;
+    }
+
+    IEnumerator SetJumpInterbalCoroutine()
+    {
+        yield return new WaitForSeconds(2f);
+        _isInterbal = false;
+        yield break;
+    }
+
     void FixedUpdate()
     {
+        if (_isJump)
+        {
+            _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+            _isJump = false;
+            StartCoroutine(SetJumpInterbalCoroutine());
+        }
         Vector3 movment = new Vector3(x: _movmentX, y: 0.0f, z: _movmentY);
         _rb.AddForce(movment * speed);
     }
