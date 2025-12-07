@@ -1,0 +1,45 @@
+using UnityEngine;
+// PlayerゲームオブジェクトにアタッチしたPlayerInputから入力を受け付けるために必要な名前空間
+/*
+キーボード・ゲームパッド
+↓
+Actions
+↓
+PlayerゲームオブジェクトにアタッチしたPlayerInput
+↓
+このスクリプト
+*/
+using UnityEngine.InputSystem;
+
+public class PlayerController : MonoBehaviour
+{
+    // private変数は他のスクリプトから値を取得・変更させることができない変数のことです。
+    // privateで変数を定義する場合は変数名の最初に_（アンダーバー）をつけます。
+
+    /// <summary>
+    /// X方向の移動量を保存する変数
+    /// </summary>
+    private float _movmentX;
+
+    /// <summary>
+    /// Y方向の移動量を保存する変数
+    /// </summary>
+    private float _movmentY;
+
+    void Start()
+    {
+        
+    }
+
+    /// <summary>
+    /// プレイヤーのキーボード（WASD）/ゲームパッド（Lスティック）の入力があった際に呼び出される関数です。
+    /// </summary>
+    /// <param name="movementValue">入力デバイスのX方向とY方向の値を持っています。</param>
+    void OnMove(InputValue movementValue)
+    {
+
+        Vector2 movementVector = movementValue.Get<Vector2>();
+        _movmentX = movementVector.x;
+        _movmentY = movementVector.y;
+    }
+}
