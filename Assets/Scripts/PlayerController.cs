@@ -98,4 +98,21 @@ public class PlayerController : MonoBehaviour
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
     }
+
+    public void SeedUp(float speed, float duration)
+    {
+        StartCoroutine(SpeedUpCoroutine(speed, duration));
+    }
+
+    IEnumerator SpeedUpCoroutine(float speed, float duration)
+    {
+        Debug.Log("call");
+        float tempSpeed = this.speed;
+        this.speed += speed;
+        Debug.Log($"speed: {this.speed}");
+        yield return new WaitForSeconds(duration);
+        this.speed = tempSpeed;
+        Debug.Log($"end speed: {this.speed}");
+        yield break;
+    }
 }
