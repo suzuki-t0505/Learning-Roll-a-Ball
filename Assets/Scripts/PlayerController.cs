@@ -26,9 +26,19 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private float _movmentY;
 
+    /// <summary>
+    /// PlayerにアタッチされているRigidbodyを保存する変数
+    /// </summary>
+    private Rigidbody _rb;
+    
+    /// <summary>
+    /// Playerの移動速度を保存する変数
+    /// </summary>
+    public float speed = 5f;
+
     void Start()
     {
-        
+        _rb = GetComponent<Rigidbody>();
     }
 
     /// <summary>
@@ -41,5 +51,12 @@ public class PlayerController : MonoBehaviour
         Vector2 movementVector = movementValue.Get<Vector2>();
         _movmentX = movementVector.x;
         _movmentY = movementVector.y;
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 movement = new Vector3(_movmentX, 0.0f, _movmentY);
+
+        _rb.AddForce(movement * speed);
     }
 }
