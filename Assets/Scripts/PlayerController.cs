@@ -10,6 +10,7 @@ PlayerゲームオブジェクトにアタッチしたPlayerInput
 このスクリプト
 */
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class PlayerController : MonoBehaviour
     /// PlayerにアタッチされているRigidbodyを保存する変数
     /// </summary>
     private Rigidbody _rb;
+
+    private int _count;
+
+    public TextMeshProUGUI countText;
+    public GameObject winTextObject;
     
     /// <summary>
     /// Playerの移動速度を保存する変数
@@ -39,6 +45,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _count = 0;
+        SetCountText();
+        winTextObject.SetActive(false);
     }
 
     /// <summary>
@@ -65,6 +74,18 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
+            _count += 1;
+            SetCountText();
+        }
+    }
+
+    void SetCountText()
+    {
+        countText.text = "Count: " + _count.ToString();
+
+        if (_count >= 10)
+        {
+            winTextObject.SetActive(true);
         }
     }
 }
