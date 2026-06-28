@@ -15,9 +15,11 @@ public class EnemyMovment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!System.Object.ReferenceEquals(player.gameObject, null))
-        {
-            _navMeshAgent.SetDestination(player.position);
-        }
+        // if (!System.Object.ReferenceEquals(player.gameObject, null))
+        // {
+        //     _navMeshAgent.SetDestination(player.position);
+        // }
+
+        _navMeshAgent.SetDestination(player.position);
     }
 }
